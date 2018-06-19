@@ -1,23 +1,37 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
-  </div>
+    <div id="app">
+        <!--内容区-->
+		<transition appear name="ani" mode="out-in">
+			<router-view></router-view>
+		</transition>
+
+        <!-- 底部 -->
+        <footer-guide></footer-guide>
+    </div>
 </template>
 
 <script>
+
+import footerGuide from './components/Footer/Footer.vue'
+// console.log(footerGuide)
 export default {
-  name: 'App'
+    data(){
+        return {
+
+        }
+    },
+    components: {
+        footerGuide
+    }
 }
+
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="stylus" rel="stylesheet/stylus">
+  #app 
+    height 100%
+    width 100%
+    background #fff
+    position relative
+    // border 1px solid #333
 </style>
