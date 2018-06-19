@@ -1,13 +1,12 @@
 <template>
     <section class="search">
-        <header class="header">
-          <a class="header_title">
-            <span class="header_title_text">搜索</span>
-          </a>
-        </header>
+        
+        <!-- 头部 -->
+        <comm-head title="搜索"></comm-head>
+
         <form class="search_form" action="#">
-          <input type="search" name="search" placeholder="请输入商家或美食名称" class="search_input">
-          <input type="submit" name="submit" class="search_submit">
+            <input type="search" name="search" placeholder="请输入商家或美食名称" class="search_input">
+            <input type="submit" name="submit" class="search_submit">
         </form>
     </section>
     
@@ -15,6 +14,8 @@
 </template>
 
 <script>
+
+import commHead from '../../components/headTop/headTop.vue'
 
 export default {
     data() {
@@ -24,7 +25,7 @@ export default {
     },
 
     components: {
-        
+        commHead
     },
 
     created() {

@@ -1,10 +1,7 @@
 <template>
     <section class="order">
-        <header class="header">
-            <a class="header_title">
-                <span class="header_title_text">订单列表</span>
-            </a>
-        </header>
+        <!-- 头部 -->
+        <comm-head title="订单列表"></comm-head>
         <section class="order_no_login">
             <img src="./images/person.png">
             <h3>登录后查看外卖订单</h3>
@@ -16,6 +13,8 @@
 
 <script>
 
+import commHead from '../../components/headTop/headTop.vue'
+
 export default {
     data() {
         return {
@@ -24,7 +23,7 @@ export default {
     },
 
     components: {
-        
+        commHead
     },
 
     created() {

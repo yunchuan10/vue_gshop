@@ -1,10 +1,7 @@
 <template>
     <section class="profile">
-        <header class="header">
-            <a class="header_title">
-                <span class="header_title_text">我的</span>
-            </a>
-        </header>
+        <!-- 头部 -->
+        <comm-head title="我的"></comm-head>
         <section class="profile-number">
             <a href="javascript:" class="profile-link">
                 <div class="profile_image">
@@ -99,6 +96,8 @@
 
 <script>
 
+import commHead from '../../components/headTop/headTop.vue'
+
 export default {
     data() {
         return {
@@ -107,7 +106,7 @@ export default {
     },
 
     components: {
-        
+        commHead
     },
 
     created() {
