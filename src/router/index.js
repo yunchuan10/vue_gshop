@@ -19,10 +19,11 @@ Vue.use(Router)
 
 export default new Router({
     routes: [
-        {path: '/home',	component: home},
-        {path: '/search',	component: search},
-        {path: '/order',	component: order},
-        {path: '/profile',	component: profile},
+        {path: '/home',	component: home, meta: { footShow: true } },
+        {path: '/search',	component: search, meta: { footShow: true } },
+        {path: '/order',	component: order, meta: { footShow: true } },
+        {path: '/profile',	component: profile, meta: { footShow: true } },
+        {path: '/login',	component: Login},
         
         {path:'/', redirect:'/home'}  	//重定向  
         

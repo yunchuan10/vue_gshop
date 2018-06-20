@@ -2,7 +2,7 @@
     <div class="home-section msite">
         
         <!-- 头部 -->
-        <comm-head :title="title">
+        <comm-head :title="address.name">
             <span class="header_search" slot="left">
             <i class="iconfont icon-sousuo"></i>
             </span>
@@ -138,6 +138,7 @@
 
 import commHead from '../../components/headTop/headTop.vue'
 import shopList from '../../components/shopList/shopList.vue'
+import {mapState} from 'vuex'
 
 import  'swiper/dist/css/swiper.min.css'
 import Swiper from 'swiper'
@@ -156,21 +157,27 @@ export default {
     },
 
     created() {
-        
+        // this.getAddress();
     },
     mounted(){
         this.swiper = new Swiper('.swiper-container',{
             loop: true,
             grabCursor : true,
             pagination: {
-                el: '.swiper-pagination',
-                
+                el: '.swiper-pagination'
             },
         })
     },
+
+    computed: {
+        ...mapState(['address'])
+    },
     
     methods: {
-        
+        // ...mapActions(['getAddress', 'getUserInfo'])
+    },
+    destroyed(){
+        document.documentElement.scrollTop=document.body.scrollTop=0
     }
 };
 </script>

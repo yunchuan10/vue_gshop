@@ -1,5 +1,5 @@
 <template>
-    <div class="foot-section">
+    <div class="foot-section" >
         <span class="guide_item" :class="{on: '/home'===$route.path}" @click="goTo('/home')">
             <span class="item_icon">
                 <i class="iconfont icon-waimai"></i>

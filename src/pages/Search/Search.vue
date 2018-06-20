@@ -42,9 +42,9 @@ export default {
 @import "../../common/stylus/mixins.styl"
 .search  //搜索
   width 100%
+  padding-top 45px
   .search_form
     clearFix()
-    margin-top 45px
     background-color #fff
     padding 12px 8px
     input

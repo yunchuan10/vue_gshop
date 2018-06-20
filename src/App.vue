@@ -6,14 +6,14 @@
 		</transition>
 
         <!-- 底部 -->
-        <footer-guide></footer-guide>
+        <footer-guide v-show="$route.meta.footShow"></footer-guide>
     </div>
 </template>
 
 <script>
 
 import footerGuide from './components/Footer/Footer.vue'
-// console.log(footerGuide)
+
 export default {
     data(){
         return {
@@ -22,6 +22,22 @@ export default {
     },
     components: {
         footerGuide
+    },
+    created(){
+        this.getFoods();
+    },
+    methods: {
+        getFoods (){
+            this.$store.dispatch('getAddress');
+            // reqFoodCategorys().then(function(data){
+            //     console.log(1)
+            // }).catch(function(data){     //没有服务走这里
+            //     console.log(2)
+            // })
+        }
+    },
+    mounted(){
+        
     }
 }
 
