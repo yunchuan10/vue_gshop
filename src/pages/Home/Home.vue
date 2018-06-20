@@ -15,57 +15,15 @@
         <nav class="msite_nav">
             <div class="swiper-container">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <a href="javascript:" class="link_to_food">
-                        <div class="food_container">
-                            <img src="./images/nav/1.jpg">
-                        </div>
-                        <span>甜品饮品</span>
-                        </a>
-                        <a href="javascript:" class="link_to_food">
-                        <div class="food_container">
-                            <img src="./images/nav/2.jpg">
-                        </div>
-                        <span>商超便利</span>
-                        </a>
-                        <a href="javascript:" class="link_to_food">
-                        <div class="food_container">
-                            <img src="./images/nav/3.jpg">
-                        </div>
-                        <span>美食</span>
-                        </a>
-                        <a href="javascript:" class="link_to_food">
-                        <div class="food_container">
-                            <img src="./images/nav/4.jpg">
-                        </div>
-                        <span>简餐</span>
-                        </a>
-                        <a href="javascript:" class="link_to_food">
-                        <div class="food_container">
-                            <img src="./images/nav/5.jpg">
-                        </div>
-                        <span>新店特惠</span>
-                        </a>
-                        <a href="javascript:" class="link_to_food">
-                        <div class="food_container">
-                            <img src="./images/nav/6.jpg">
-                        </div>
-                        <span>准时达</span>
-                        </a>
-                        <a href="javascript:" class="link_to_food">
-                        <div class="food_container">
-                            <img src="./images/nav/7.jpg">
-                        </div>
-                        <span>预订早餐</span>
-                        </a>
-                        <a href="javascript:" class="link_to_food">
-                        <div class="food_container">
-                            <img src="./images/nav/8.jpg">
-                        </div>
-                        <span>土豪推荐</span>
+                    <div class="swiper-slide" v-for="(arr, n) in categorysArray" :key="n">
+                        <a href="javascript:" class="link_to_food" v-for="(item, k) in arr" :key="k">
+                            <div class="food_container">
+                                <img :src="baseImageUrl+item.image_url">
+                            </div>
+                            <span v-text="item.title+n"></span>
                         </a>
                     </div>
-                    <div class="swiper-slide">
+                    <!-- <div class="swiper-slide">
                         <a href="javascript:" class="link_to_food">
                         <div class="food_container">
                             <img src="./images/nav/9.jpg">
@@ -114,7 +72,7 @@
                         </div>
                         <span>土豪推荐</span>
                         </a>
-                    </div>
+                    </div> -->
                 </div>
                 <!-- Add Pagination -->
                 <div class="swiper-pagination"></div>
@@ -138,7 +96,7 @@
 
 import commHead from '../../components/headTop/headTop.vue'
 import shopList from '../../components/shopList/shopList.vue'
-import {mapState} from 'vuex'
+import {mapState, mapActions} from 'vuex'
 
 import  'swiper/dist/css/swiper.min.css'
 import Swiper from 'swiper'
@@ -146,8 +104,8 @@ import Swiper from 'swiper'
 export default {
     data() {
         return {
+            baseImageUrl: 'https://fuss10.elemecdn.com',
             swiper: null,
-            title: '5354'
         };
     },
 
@@ -157,24 +115,69 @@ export default {
     },
 
     created() {
-        // this.getAddress();
+        this.getCategorys();
+
+        
+
+        // setTimeout( () =>{
+        //     console.log(this.categorysArray)
+        // }, 2000 )
     },
     mounted(){
-        this.swiper = new Swiper('.swiper-container',{
-            loop: true,
-            grabCursor : true,
-            pagination: {
-                el: '.swiper-pagination'
-            },
-        })
+        
+    },
+
+    watch: {
+        categorys(v){
+            this.$nextTick( () => {   // 页面更新完成调用
+                this.swiper = new Swiper('.swiper-container',{
+                    loop: false,
+                    grabCursor : true,
+                    pagination: {
+                        el: '.swiper-pagination'
+                    },
+                })
+            })
+        }
     },
 
     computed: {
-        ...mapState(['address'])
+        ...mapState(['address', 'categorys']),
+        categorysArray(){
+            const {categorys} = this;
+            var arr = [], minarr=[];
+            categorys.forEach(c => {
+                minarr.push(c);
+                if(minarr.length===7+1){
+                    arr.push(minarr);
+                    minarr=[]; 
+                }
+            });
+
+            if(minarr.length!== 7+1){
+                arr.push(minarr);
+            }
+
+            // this.$nextTick( () => {   // 页面更新完成调用
+            //     this.swiper = new Swiper('.swiper-container',{
+            //         loop: false,
+            //         grabCursor : true,
+            //         pagination: {
+            //             el: '.swiper-pagination'
+            //         },
+            //     })
+            // })
+
+            
+
+            return arr;
+        }
+
+
     },
     
     methods: {
-        // ...mapActions(['getAddress', 'getUserInfo'])
+        ...mapActions(['getCategorys']),
     },
     destroyed(){
         document.documentElement.scrollTop=document.body.scrollTop=0
