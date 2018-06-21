@@ -13,7 +13,7 @@
         
         <!--首页导航-->
         <nav class="msite_nav">
-            <div class="swiper-container">
+            <div class="swiper-container" v-if="categorys.length">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide" v-for="(arr, n) in categorysArray" :key="n">
                         <a href="javascript:" class="link_to_food" v-for="(item, k) in arr" :key="k">
@@ -23,59 +23,13 @@
                             <span v-text="item.title+n"></span>
                         </a>
                     </div>
-                    <!-- <div class="swiper-slide">
-                        <a href="javascript:" class="link_to_food">
-                        <div class="food_container">
-                            <img src="./images/nav/9.jpg">
-                        </div>
-                        <span>甜品饮品</span>
-                        </a>
-                        <a href="javascript:" class="link_to_food">
-                        <div class="food_container">
-                            <img src="./images/nav/10.jpg">
-                        </div>
-                        <span>商超便利</span>
-                        </a>
-                        <a href="javascript:" class="link_to_food">
-                        <div class="food_container">
-                            <img src="./images/nav/11.jpg">
-                        </div>
-                        <span>美食</span>
-                        </a>
-                        <a href="javascript:" class="link_to_food">
-                        <div class="food_container">
-                            <img src="./images/nav/12.jpg">
-                        </div>
-                        <span>简餐</span>
-                        </a>
-                        <a href="javascript:" class="link_to_food">
-                        <div class="food_container">
-                            <img src="./images/nav/13.jpg">
-                        </div>
-                        <span>新店特惠</span>
-                        </a>
-                        <a href="javascript:" class="link_to_food">
-                        <div class="food_container">
-                            <img src="./images/nav/14.jpg">
-                        </div>
-                        <span>准时达</span>
-                        </a>
-                        <a href="javascript:" class="link_to_food">
-                        <div class="food_container">
-                            <img src="./images/nav/1.jpg">
-                        </div>
-                        <span>预订早餐</span>
-                        </a>
-                        <a href="javascript:" class="link_to_food">
-                        <div class="food_container">
-                            <img src="./images/nav/2.jpg">
-                        </div>
-                        <span>土豪推荐</span>
-                        </a>
-                    </div> -->
                 </div>
+                
                 <!-- Add Pagination -->
                 <div class="swiper-pagination"></div>
+            </div>
+            <div v-else>
+                <img src="./images/msite_back.svg" alt="">
             </div>
         </nav>
         <!--首页附近商家-->
@@ -114,14 +68,11 @@ export default {
         shopList
     },
 
+    
+
     created() {
         this.getCategorys();
 
-        
-
-        // setTimeout( () =>{
-        //     console.log(this.categorysArray)
-        // }, 2000 )
     },
     mounted(){
         

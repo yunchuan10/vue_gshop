@@ -1,6 +1,6 @@
 <template>
     <div class="shop_container">
-        <ul class="shop_list">
+        <ul class="shop_list" v-if="shops.length">
             <li class="shop_li border-1px" v-for="(shop, index) in shops"
           :key="index" @click="$router.push('/shop')">
             <a>
@@ -19,6 +19,7 @@
                 <section class="shop_rating_order">
                 <section class="shop_rating_order_left">
                     <Star :score="shop.rating" :size="24"/>
+                    <!-- <div :score="shop.rating" :size="24"></div> -->
                     <div class="rating_section">
                     {{shop.rating}}
                     </div>
@@ -84,7 +85,12 @@
                     </div>
                 </a>
             </li>
-            
+        </ul>
+
+        <ul v-else >
+            <li v-for="(i, n) in 6" :key="n">
+                <img src="./images/shop_back.svg" alt="">
+            </li>
         </ul>
     </div>
         
@@ -92,16 +98,17 @@
 
 <script>
 import {mapState} from 'vuex'
+import Star from '../Star/Star.vue'
 
 export default {
     data() {
         return {
-            
+            baseImgUrl: 'http://cangdu.org:8001'
         };
     },
 
     components: {
-        
+        Star
     },
     computed: {
         ...mapState(['shops'])

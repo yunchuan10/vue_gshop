@@ -4,42 +4,42 @@
             <div class="login_header">
                 <h2 class="login_logo">外卖</h2>
                 <div class="login_header_title">
-                    <a href="javascript:;" class="on">短信登录</a>
-                    <a href="javascript:;">密码登录</a>
+                    <a href="javascript:;" @click="loginType=1" :class="{on : loginType==1}">短信登录</a>
+                    <a href="javascript:;" @click="loginType=0" :class="{on : loginType==0}">密码登录</a>
                 </div>
             </div>
             <div class="login_content">
-                <form>
-                    <div class="on">
-                    <section class="login_message">
-                        <input type="tel" maxlength="11" placeholder="手机号">
-                        <button disabled="disabled" class="get_verification">获取验证码</button>
-                    </section>
-                    <section class="login_verification">
-                        <input type="tel" maxlength="8" placeholder="验证码">
-                    </section>
-                    <section class="login_hint">
-                        温馨提示：未注册外卖帐号的手机号，登录时将自动注册，且代表已同意
-                        <a href="javascript:;">《用户服务协议》</a>
-                    </section>
-                    </div>
-                    <div>
-                    <section>
+                <form >
+                    <div :class="{on : loginType==1}">
                         <section class="login_message">
-                        <input type="tel" maxlength="11" placeholder="手机/邮箱/用户名">
+                            <input type="tel" maxlength="11" placeholder="手机号" v-model="phonenum">
+                            <button @click="getCode" :disabled="!right_phone" class="get_verification" :class="{right_phone}" >{{codeTime? '还有'+codeTime+'s':'获取验证码'}}</button>
                         </section>
                         <section class="login_verification">
-                        <input type="tel" maxlength="8" placeholder="密码">
-                        <div class="switch_button off">
-                            <div class="switch_circle"></div>
-                            <span class="switch_text">...</span>
-                        </div>
+                            <input type="tel" maxlength="8" placeholder="验证码">
                         </section>
-                        <section class="login_message">
-                        <input type="text" maxlength="11" placeholder="验证码">
-                        <img class="get_verification" src="./images/captcha.svg" alt="captcha">
+                        <section class="login_hint">
+                            温馨提示：未注册外卖帐号的手机号，登录时将自动注册，且代表已同意
+                            <a href="javascript:;">《用户服务协议》</a>
                         </section>
-                    </section>
+                    </div>
+                    <div :class="{on : loginType==0}">
+                        <section>
+                            <section class="login_message">
+                            <input v-model="name" type="text" maxlength="11" placeholder="手机/邮箱/用户名">
+                            </section>
+                            <section class="login_verification">
+                            <input v-model="pwd" :type="ispassword" maxlength="8" placeholder="密码">
+                            <div @click="password = !password" class="switch_button " :class=" password? 'off': 'on'">
+                                <div class="switch_circle"></div>
+                                <span class="switch_text">...</span>
+                            </div>
+                            </section>
+                            <section class="login_message">
+                            <input v-model="captcha" type="text" maxlength="11" placeholder="验证码">
+                            <img class="get_verification" src="./images/captcha.svg" alt="captcha">
+                            </section>
+                        </section>
                     </div>
                     <button class="login_submit">登录</button>
                 </form>
@@ -53,28 +53,95 @@
   
 </template>
 
-
 <script>
-  
-  export default {
+
+export default {
     data () {
         return {
+            loginType: 1,   // 1短信登录  0密码登录
+
+            password: true,
+            codeTime: 0,
+
+            phonenum: '',
+            code: '',
+            pwd: '',
+            name: '', //手机/邮箱/用户名
+            captcha: '', //验证码
             
         }
     },
 
     computed: {
-        
+        right_phone(){
+            const {phonenum} = this;
+            return /^1\d{10}$/.test(phonenum) 
+        },
+        ispassword(){
+            if(this.password){
+                return 'password'
+            }else{
+                return 'number'
+            }
+        }
+    },
+
+    watch: {
+        phonenum (newv, oldv){      //限制只能输入数字
+            if( /\D+/g.test(newv) ){
+                this.phonenum = newv.replace(/\D+/g, '')
+            }
+        }
+
+
     },
 
     methods: {
-        
+
+        // 数据验证
+        canSend(){
+            
+            if(this.loginType){  // 短信登录
+                const {phonenum, code} = this;
+
+                if(!phonenum){
+
+                    return false;
+                }else if( code.trim().length != 4 ){
+
+                    return false;
+                }
+                return true;
+            }else{      //密码登录
+                const {name, pwd, captcha} = this;
+
+
+            }
+
+        },
+
+        getCode(){     // 发短信
+            // 倒计时
+            if(!this.codeTime){
+                this.codeTime = 30;
+                let codeTimeId = setInterval( () => {
+                    this.codeTime -- ;
+                    if(!this.codeTime){
+                        clearInterval(codeTimeId);
+                    }
+                }, 1000 )
+
+                //发短信
+
+            }
+            
+        }
     },
 
     components: {
         
     }
-  }
+}
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
@@ -150,7 +217,7 @@
                 font-size 12px
                 border 1px solid #ddd
                 border-radius 8px
-                transition background-color .3s,border-color .3s
+                transition all .3s
                 padding 0 6px
                 width 30px
                 height 16px
@@ -167,7 +234,10 @@
                     color #ddd
                 &.on
                   background #02a774
+                  >.switch_circle
+                    left 26px
                 >.switch_circle
+                  transition all .3s
                   position absolute
                   top -1px
                   left -1px
@@ -177,7 +247,6 @@
                   border-radius 50%
                   background #fff
                   box-shadow 0 2px 4px 0 rgba(0,0,0,.1)
-                  transition transform .3s
                   &.right
                     transform translateX(30px)
             .login_hint
