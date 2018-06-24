@@ -9,14 +9,14 @@
                 </div>
             </div>
             <div class="login_content">
-                <form >
+                <form @submit.prevent="login">
                     <div :class="{on : loginType==1}">
                         <section class="login_message">
                             <input type="tel" maxlength="11" placeholder="手机号" v-model="phonenum">
                             <button @click="getCode" :disabled="!right_phone" class="get_verification" :class="{right_phone}" >{{codeTime? '还有'+codeTime+'s':'获取验证码'}}</button>
                         </section>
                         <section class="login_verification">
-                            <input type="tel" maxlength="8" placeholder="验证码">
+                            <input v-model="code" type="tel" maxlength="8" placeholder="验证码">
                         </section>
                         <section class="login_hint">
                             温馨提示：未注册外卖帐号的手机号，登录时将自动注册，且代表已同意
@@ -49,15 +49,23 @@
                 <i class="iconfont icon-jiantou2"></i>
             </a>
         </div>
+
+        <AlertTip :alertText="alertText" v-show="alertShow" @closeTip="closeTip"/>
+
     </section>
   
 </template>
 
 <script>
 
+import AlertTip from '../../components/AlertTip/AlertTip.vue'
+
 export default {
     data () {
         return {
+            alertText: '',
+            alertShow: false,
+
             loginType: 1,   // 1短信登录  0密码登录
 
             password: true,
@@ -98,6 +106,20 @@ export default {
 
     methods: {
 
+        closeTip(){
+            this.alertText ='';
+            this.alertShow =false;
+        },
+        showTip(txt){
+            this.alertText =txt;
+            this.alertShow =true;
+        },
+
+        login(){
+            let sendBolean = this.canSend();
+            console.log(sendBolean)
+        },
+
         // 数据验证
         canSend(){
             
@@ -105,19 +127,18 @@ export default {
                 const {phonenum, code} = this;
 
                 if(!phonenum){
-
+                    this.showTip('请填写手机号码')
                     return false;
                 }else if( code.trim().length != 4 ){
-
+                    this.showTip('请填写4位数验证码')
                     return false;
                 }
-                return true;
             }else{      //密码登录
                 const {name, pwd, captcha} = this;
-
+                
 
             }
-
+            return true;
         },
 
         getCode(){     // 发短信
@@ -139,7 +160,7 @@ export default {
     },
 
     components: {
-        
+        AlertTip
     }
 }
 </script>

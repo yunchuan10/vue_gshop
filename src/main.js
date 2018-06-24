@@ -4,6 +4,8 @@ import App from './App'
 import router from './router'
 import store from './store'
 // Vue.config.productionTip = false
+
+import './mock/mockServer'  // 加载模拟数据
   
 /* eslint-disable no-new */
 new Vue({

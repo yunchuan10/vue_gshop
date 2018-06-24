@@ -24,10 +24,33 @@ export default new Router({
         {path: '/order',	component: order, meta: { footShow: true } },
         {path: '/profile',	component: profile, meta: { footShow: true } },
         {path: '/login',	component: Login},
+
+        {
+            path: '/shop',	component: Shop,
+            children: [
+                {
+                    path: '/shop/goods',
+                    component: ShopGoods
+                },
+                {
+                    path: '/shop/ratings',
+                    component: ShopRatings
+                },
+                {
+                    path: '/shop/info',
+                    component: ShopInfo
+                },
+                {
+                    path: '',
+                    redirect: '/shop/goods'
+                },
+            ]
+
+        },
         
         {path:'/', redirect:'/home'}  	//重定向  
         
     ],
-    linkActiveClass: 'on'		//路由高亮类   
+    // linkActiveClass: 'on'		//路由高亮类   
 
 })
