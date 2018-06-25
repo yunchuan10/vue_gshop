@@ -8,7 +8,6 @@
                             <img v-if="good.icon" class="icon" :src="good.icon">
                             {{good.name}}
                         </span>
-                
                     </li>
                 </ul>
             </div>
