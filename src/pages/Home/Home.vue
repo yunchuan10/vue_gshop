@@ -2,7 +2,7 @@
     <div class="home-section msite">
         
         <!-- 头部 -->
-        <comm-head :title="address.name">
+        <comm-head :title="dress">
             <span class="header_search" slot="left">
             <i class="iconfont icon-sousuo"></i>
             </span>
@@ -41,7 +41,7 @@
             <shopList></shopList>
         </div>
       
-    
+        <div id="XSDFXPage" class="XSDFXPage"></div>
     </div>
     
 </template>
@@ -60,6 +60,7 @@ export default {
         return {
             baseImageUrl: 'https://fuss10.elemecdn.com',
             swiper: null,
+            dress: ''
         };
     },
 
@@ -72,10 +73,12 @@ export default {
 
     created() {
         this.getCategorys();
-
+        
     },
     mounted(){
-        
+        setTimeout(()=>{
+            this.setMap();
+        }, 2000)
     },
 
     watch: {
@@ -118,9 +121,6 @@ export default {
             //         },
             //     })
             // })
-
-            
-
             return arr;
         }
 
@@ -129,6 +129,32 @@ export default {
     
     methods: {
         ...mapActions(['getCategorys']),
+        setMap(){
+            console.log(111)
+            let {map} = this;
+            var _this = this;
+            // 百度地图API功能
+            map = new BMap.Map("XSDFXPage");
+            var point = new BMap.Point(116.404, 39.915);
+            map.centerAndZoom(point, 12);
+            var geolocation = new BMap.Geolocation();
+            geolocation.getCurrentPosition(function(r){
+                if(this.getStatus() == BMAP_STATUS_SUCCESS){
+                    var mk = new BMap.Marker(r.point);
+                    map.addOverlay(mk);
+                    map.panTo(r.point);
+                    // _this.dress = (r.address.city + r.address.district + r.address.street + r.address.street_number);
+                    _this.dress = (r.address.district + r.address.street + r.address.street_number);
+                    console.log(_this.dress)
+                }
+                else {
+                    console.log(4444)
+                    alert('failed'+this.getStatus());
+                }        
+            },{enableHighAccuracy: true})
+            // this.map = map;
+        }
+        
     },
     destroyed(){
         document.documentElement.scrollTop=document.body.scrollTop=0
