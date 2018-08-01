@@ -35,7 +35,7 @@
         <!--首页附近商家-->
         <div class="msite_shop_list">
             <div class="shop_header">
-                <i class="iconfont icon-xuanxiang"></i>
+                <i class="iconfont icon-xuanxiang"></i>y
                 <span class="shop_header_title">附近商家</span>
             </div>
             <shopList></shopList>
@@ -51,6 +51,11 @@
 import commHead from '../../components/headTop/headTop.vue'
 import shopList from '../../components/shopList/shopList.vue'
 import {mapState, mapActions} from 'vuex'
+
+import BMap from 'BMap'
+import BMapSymbolSHAPEPOINT from 'BMap_Symbol_SHAPE_POINT'
+
+console.log(BMap, '引入地图成功！')
 
 import  'swiper/dist/css/swiper.min.css'
 import Swiper from 'swiper'
@@ -130,7 +135,6 @@ export default {
     methods: {
         ...mapActions(['getCategorys']),
         setMap(){
-            console.log(111)
             let {map} = this;
             var _this = this;
             // 百度地图API功能
@@ -145,10 +149,7 @@ export default {
                     map.panTo(r.point);
                     // _this.dress = (r.address.city + r.address.district + r.address.street + r.address.street_number);
                     _this.dress = (r.address.district + r.address.street + r.address.street_number);
-                    console.log(_this.dress)
-                }
-                else {
-                    console.log(4444)
+                }else {
                     alert('failed'+this.getStatus());
                 }        
             },{enableHighAccuracy: true})
